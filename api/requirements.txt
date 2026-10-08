@@ -1,0 +1,4 @@
+# Web framework: routes like GET /health, plus CORS support (CORSMiddleware).
+fastapi==0.142.2
+# Server that runs the FastAPI app and reloads it on code changes.
+uvicorn==0.54.0
