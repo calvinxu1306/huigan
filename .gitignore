@@ -1,0 +1,49 @@
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# --- ML data and weights (too large for git) ---
+ml/data/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# --- Build output ---
+dist/
+build/
+
+# --- Local tool settings ---
+.claude/settings.local.json
+
+# --- OS ---
+.DS_Store
+Thumbs.db
