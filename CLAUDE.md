@@ -25,6 +25,9 @@ The front end is a Next.js app that calls a FastAPI back end. Data lives in Post
 2. **Change the database only through migrations.** No hand edits in the Supabase dashboard and no one-off SQL against a shared database. Every schema change is a new migration file, and a migration that has already been applied is never edited. No migration tool has been chosen yet, so ask before picking one.
 3. **Keep changes small and explain them.** Each change does one thing. Say what changed and why before or as you make it.
 4. **Ask before adding a dependency.** This covers npm and pip packages and outside services. Name the package, what it's for, and any lighter option.
+5. **Use releases that have been out at least a week.** When adding or upgrading a dependency, pick the newest version released at least 7 days ago, and say which version and its release date.
+6. **Check git state first.** Run `git status` and confirm the current branch before any git operation.
+7. **Ask, don't guess project details.** If a design choice, convention or field meaning isn't in CLAUDE.md or `docs/`, ask Calvin instead of assuming.
 
 ## Untrusted content and prompt injection
 
