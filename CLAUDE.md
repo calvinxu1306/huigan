@@ -18,16 +18,25 @@ The front end is a Next.js app that calls a FastAPI back end. Data lives in Post
 - `api/`: FastAPI back end
 - `ml/`: models and notebooks
 - `docs/`: decision records and dev log
+- `supabase/`: Supabase CLI config and SQL migrations
 
 ## Hard rules
 
 1. **Never commit secrets or `.env` files.** Real values go in `.env`, which is git-ignored. List the variable names, with no values, in `.env.example`. If a secret appears in a file about to be committed, stop and say so.
-2. **Change the database only through migrations.** No hand edits in the Supabase dashboard and no one-off SQL against a shared database. Every schema change is a new migration file, and a migration that has already been applied is never edited. No migration tool has been chosen yet, so ask before picking one.
+2. **Change the database only through migrations.** No hand edits in the Supabase dashboard and no one-off SQL against a shared database. Every schema change is a new migration file, and a migration that has already been applied is never edited. Migrations are plain SQL files in `supabase/migrations/`, created with `npx supabase migration new <name>` (see DR 0003).
 3. **Keep changes small and explain them.** Each change does one thing. Say what changed and why before or as you make it.
 4. **Ask before adding a dependency.** This covers npm and pip packages and outside services. Name the package, what it's for, and any lighter option.
 5. **Use releases that have been out at least a week.** When adding or upgrading a dependency, pick the newest version released at least 7 days ago, and say which version and its release date.
 6. **Check git state first.** Run `git status` and confirm the current branch before any git operation.
 7. **Ask, don't guess project details.** If a design choice, convention or field meaning isn't in CLAUDE.md or `docs/`, ask Calvin instead of assuming.
+
+## Data conventions
+
+- **Units:** temperature in °C, leaf in grams, water in ml, times in seconds.
+- **Unknown values are null.** Never store 0, "unknown" or an empty string for something that wasn't recorded.
+- **Infusions are rows under a session.** Each infusion in a brew session is its own row, linked to that session.
+- **Comparisons are stored raw; scores are derived.** Store each comparison exactly as it was made, and compute rankings and scores from those rows.
+- **Notes can be English, Chinese or mixed.** Don't assume one language when storing, searching or tagging them.
 
 ## Untrusted content and prompt injection
 
