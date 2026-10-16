@@ -59,3 +59,42 @@
 - Push scaffold-apps, open a pull request, review Files changed, merge
 - Decide on Next.js telemetry (`npx next telemetry disable`)
 - Choose a migration tool, sketch the first tables from the brew-log spreadsheet, and write the first migration myself
+
+## 2026-10-16 · Supabase CLI, first migration and data conventions
+**Phase:** 0 · **Time:** ~? h
+
+**Done**
+- Merged PR #1 (scaffold) and PR #2 (CLAUDE.md rules 5–7: week-old releases, check git state first, ask don't guess)
+- Chose Supabase CLI migrations (plain SQL) over Alembic and recorded why in DR 0003
+- Agent installed the Supabase CLI 2.120.0 (released 2026-10-06) as a dev dependency in a new root package.json, turned its telemetry off, ran `supabase init` and created an empty `init_schema` migration
+- Wrote `init_schema` myself: teas, brew_sessions, infusions, comparisons and tasting_notes, with row-level security on every table and indexes on every foreign key
+- Review fixes to init_schema: 2 missing commas, missing `not null`s, `leaf_g` int → numeric, deleting a tea blocked instead of cascading, no self-comparisons, unique infusion numbers per session, a note's infusion must belong to its session, foreign key indexes
+- Added a Data conventions section to CLAUDE.md, and updated rule 2 and the folder map for `supabase/`
+- Three commits on the data-foundations branch; not pushed yet
+
+**Agent: right / wrong**
+- ✅ Read the Supabase CLI's own source for 2.120.0 before running it, to see what `init` writes and that telemetry is on by default
+- ✅ Asked for my reasons for DR 0003 instead of writing its own (rule 7)
+- ✅ Expected the Next.js "multiple lockfiles" warning and stopped to ask before changing web/
+- ❌ Ran `npx supabase --version` without `--`, so npx printed npm's version; its own version check caught it before `init` ran
+
+**Decisions**
+- Supabase CLI migrations over Alembic (DR 0003)
+- The CLI is pinned in a root package.json, not installed globally with Scoop
+- Supabase CLI telemetry off on this machine
+- `turbopack.root` in web/next.config.ts so Next.js uses web/ as the project root
+- A tea with sessions or comparisons can't be deleted; deleting a user deletes their sessions and comparisons
+- `brewed_at` has no default; `leaf_g` and `water_ml` are numeric, not whole numbers
+
+**Learned**
+- npx keeps flags it knows, like `--version`, for itself; `npx -- supabase …` passes everything on
+- A foreign key can only point at columns that are unique together, and a multi-column foreign key goes on its own line
+- Postgres doesn't index foreign key columns automatically
+- RLS with no policies blocks everyone using the Supabase API, but the postgres role and the service-role key skip it entirely
+- Once a migration is pushed it can't be edited, so review it before `db push`
+
+**Next**
+-Decide agent billing. Either Claude subscription token or a pay-per-use API key with a spending cap. The GitHub workflow needs one of the two.
+-Add CI on GitHub Actions. Every pull request runs lint and a build for web/, plus a first API test checking /health. The test needs pytest, a new dependency, so the agent will ask first.
+-Turn on branch protection for main. Require a pull request and passing CI. 
+-Install the Claude GitHub App and the @claude workflow, then test it with a trivial issue.
