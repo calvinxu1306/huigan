@@ -1,0 +1,14 @@
+# Development and CI tools. Never installed with the app itself.
+-r requirements.txt
+
+# Linter and formatter
+ruff==0.17.0
+# Test runner
+pytest==9.1.1
+# HTTP client used by FastAPI's TestClient
+httpx2==2.13.1
+
+# Sub-dependencies held back to releases at least a week old (CLAUDE.md rule 5).
+# Dependabot moves them forward once newer releases pass the cooldown.
+pluggy==1.6.0
+truststore==0.10.4
