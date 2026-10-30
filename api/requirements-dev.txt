@@ -2,11 +2,11 @@
 -r requirements.txt
 
 # Linter and formatter
-ruff==0.17.1
+ruff==0.17.2
 # Test runner
 pytest==9.1.1
 # HTTP client used by FastAPI's TestClient
-httpx2==2.13.1
+httpx2==2.16.0
 
 # Sub-dependencies held back to releases at least a week old (CLAUDE.md rule 5).
 # Dependabot moves them forward once newer releases pass the cooldown.
